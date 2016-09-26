@@ -1,0 +1,23 @@
+{
+  "name": "cheddar-ui",
+  "version": "1.0.0",
+  "description": "Cheddar UI",
+  "main": "index.js",
+  "dependencies": {
+    "ember-cli": "^2.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelsierra/cheddar-ui.git"
+  },
+  "author": "Rafael Sierra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rafaelsierra/cheddar-ui/issues"
+  },
+  "homepage": "https://github.com/rafaelsierra/cheddar-ui#readme"
+}
