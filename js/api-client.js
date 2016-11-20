@@ -31,7 +31,11 @@
         return new Promise(function(resolve, reject){
             fetch(url, opts).then(function(response){
                 if(response.ok){
-                    response.json().then(function(json){resolve(json)});
+                    if(response.status == 204){
+                        resolve();
+                    }else{
+                        response.json().then(function(json){resolve(json)});
+                    }
                 }else{
                     reject(response);
                 }
@@ -42,20 +46,56 @@
     }
 
     /*
-     * Given a email and password, tries to login into API.
+     * Given a username and password, tries to login into API.
      * Returns a promise
      */
-    function login(email, password){
+    function login(username, password){
         return new Promise(function(resolve, reject){
-            Request(apiTree.account, {
+            Request(apiTree['obtain-auth-token'], {
                 method: 'POST',
-                body: JSON.stringify({'email': email, 'password': password})
+                body: JSON.stringify({'username': username, 'password': password})
             }).then(function(json){
+                token = json.token;
+                storage.set('token', token);
                 resolve(json);
             }).catch(function(response){
                 reject(response);
             });
         })
+    }
+
+    /*
+     * Logs the user out by deleting the token and removing it from storage
+     */
+    function logout(){
+        return new Promise(function(resolve, reject){
+            Request(apiTree['obtain-auth-token'], {
+                method: 'DELETE'
+            }).then(function(){
+                storage.remove('token')
+                token = null;
+                resolve();
+            })
+        });
+    }
+
+    function register(username, email, password){
+        return new Promise(function(resolve, reject){
+            Request(apiTree['account'], {
+                method: 'POST',
+                body: JSON.stringify({
+                    'username': username,
+                    'email': email,
+                    'password': password
+                })
+            }).catch(function(response){
+                reject(response);
+            }).then(function(json){
+                return login(username, password);
+            }).then(function(){
+                resolve();
+            });
+        });
     }
 
     /*
@@ -74,6 +114,8 @@
     window.API = new Promise(function(resolve, reject){
         let api = {
             'login': login,
+            'logout': logout,
+            'register': register,
             'isAuthenticated': isAuthenticated,
         }
         if(!apiTree.account){

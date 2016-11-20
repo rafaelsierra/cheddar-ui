@@ -1,5 +1,17 @@
-body.authenticated{
-    #login{
-        display: none;
+body{
+    a {
+        cursor: pointer;
+    }
+
+    &.authenticated{
+        #login{
+            display: none;
+        }
+    }
+
+    &.anonymous{
+        #logout{
+            display: none;
+        }
     }
 }
