@@ -4,14 +4,23 @@ body{
     }
 
     &.authenticated{
-        #login{
+        nav .user {
+            .login, .register{
+                display: none;
+            }
+        }
+        #login-register{
             display: none;
         }
     }
 
     &.anonymous{
-        #logout{
+        nav .user .logout{
             display: none;
         }
+    }
+
+    .register, #register{
+        display: none;
     }
 }
