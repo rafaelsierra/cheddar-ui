@@ -5,6 +5,9 @@
     // Token being used
     let token = storage.get('token');
 
+    // User account
+    let account = null;
+
     let apiTree = {};
 
     /*
@@ -57,13 +60,30 @@
             }).then(function(json){
                 token = json.token;
                 storage.set('token', token);
-                resolve(json);
+                resolve();
             }).catch(function(response){
                 reject(response);
             });
         })
     }
 
+    /*
+     * Returns the user account
+     */
+    function getAccount(){
+        return new Promise(function(resolve, reject){
+            if(!account){
+                Request(apiTree['account']).then(function(json){
+                    account = json;
+                    resolve(json);
+                }).catch(function(response){
+                    reject(response);
+                });
+            }else{
+                resolve(account);
+            }
+        });
+    }
     /*
      * Logs the user out by deleting the token and removing it from storage
      */
@@ -74,6 +94,7 @@
             }).then(function(){
                 storage.remove('token')
                 token = null;
+                account = null;
                 resolve();
             })
         });
@@ -103,7 +124,7 @@
      */
     function isAuthenticated(){
         return new Promise(function(resolve, reject){
-            Request(apiTree.account).then(function(response){
+            Request(apiTree['account']).then(function(response){
                 resolve(true);
             }).catch(function(){
                 resolve(false);
@@ -117,8 +138,9 @@
             'logout': logout,
             'register': register,
             'isAuthenticated': isAuthenticated,
+            'getAccount': getAccount,
         }
-        if(!apiTree.account){
+        if(!apiTree['account']){
             // Means the API wasn't initialized yet
             Request(apiRootUrl).then(function(response){
                 Object.keys(response).forEach(function(key){
