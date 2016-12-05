@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cheddar</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header ">
+            <header>
+                <nav class="orange darken-1" id="header" role="navigation">
+                    <div class="nav-wrapper container">
+                        <ul class="user right">
+                            <li class="logout">
+                                <a>Logout</a>
+                            </li>
+                            <li class="login">
+                                <a>Login</a>
+                            </li>
+                            <li class="register">
+                                <a>Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <div class="container">
+                <div id="login-register">
+                    <div id="login" class="section">
+                        <h1>Login</h1>
+                        <form method=POST>
+                            <div class="input-field">
+                                <input id="username" type="text" name="username" class="validate" required>
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input type="password" name="password" id="password" class="validate" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <button class="btn waves-effect waves-light" type="submit">
+                                Login
+                                <i class="material-icons right">perm_identity</i>
+                            </button>
+                        </form>
+                    </div>
+                    <div id="register" class="section">
+                        <h1>Register</h1>
+                        <form method=POST>
+                            <div class="input-field">
+                                <input id="reg-username" type="text" name="username" class="validate" required>
+                                <label for="reg-username">Username</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="reg-email" type="email" name="email" class="validate" required>
+                                <label for="reg-email">Email</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="reg-password" type="password" name="password" class="validate" pattern=".{10,}" required>
+                                <label for="reg-password" data-error="Your password is weak and you are weak, 10 chars is the minimum! (or maybe they don't match..I dunno)">Password</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="reg-password2" type="password" name="password2" class="validate" required>
+                                <label for="reg-password2">Repeat password</label>
+                            </div>
+                            <button class="btn waves-effect waves-light" type="submit">
+                                Register
+                                <i class="material-icons right">perm_identity</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div id="alert-modal" class="modal modal-fixed-footer">
+                    <div class="modal-content">
+                        <h2></h2>
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
