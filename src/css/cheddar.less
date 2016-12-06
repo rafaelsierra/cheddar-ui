@@ -3,19 +3,24 @@ body{
         cursor: pointer;
     }
 
+    .mdl-card {
+      width: 310px;
+      margin: 15px auto;
+    }
+
     &.authenticated{
-        nav .user {
+        .mdl-layout__drawer nav {
             .login, .register{
                 display: none;
             }
         }
-        #login-register{
+        #register.mdl-card, #login.mdl-card {
             display: none;
         }
     }
 
     &.anonymous{
-        nav .user .logout{
+        .mdl-layout__drawer nav .logout{
             display: none;
         }
 

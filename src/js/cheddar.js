@@ -2,16 +2,17 @@
 import API from './api-client';
 
 /*
- * Webpack shit
+ * Webpack stuff
  */
 require('material-design-lite');
 require('material-design-lite/dist/material.amber-blue.min.css');
+require('./mdl-helper/layout.js');
 require('../css/cheddar.less');
 /*
  * End webpack
  */
 
-(function(){
+window.addEventListener('load', function(){
   /*
    * Display the alert modal
    * Returns a promise that resolves when the modal is closed
@@ -63,26 +64,15 @@ require('../css/cheddar.less');
   let loginBox = document.getElementById('login');
   let loginForm = loginBox.querySelector('form');
 
-  let logoutLink = document.querySelector('nav .user .logout');
-  let loginLink = document.querySelector('nav .user .login');
-  let registerLink = document.querySelector('nav .user .register');
+  let logoutLink = document.querySelector('.mdl-layout__drawer nav .logout');
 
   let registerBox = document.getElementById('register');
   let registerForm = registerBox.querySelector('form');
-
+  
   /*
-   * Menu login click
+   * Material Design stuff
    */
-  loginLink.addEventListener('click', function(){
-    loginBox.scrollIntoView();
-  });
-
-  /*
-   * Menu register click
-   */
-  registerLink.addEventListener('click', function(){
-    registerBox.scrollIntoView();
-  });
+  let Layout = document.querySelector('.mdl-layout').MaterialLayout;
 
   /*
    * Menu logout click
@@ -168,4 +158,4 @@ require('../css/cheddar.less');
    */
   applyBodyClasses();
 
-})()
+})

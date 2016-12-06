@@ -6,79 +6,71 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header ">
-            <header>
-                <nav class="orange darken-1" id="header" role="navigation">
-                    <div class="nav-wrapper container">
-                        <ul class="user right">
-                            <li class="logout">
-                                <a>Logout</a>
-                            </li>
-                            <li class="login">
-                                <a>Login</a>
-                            </li>
-                            <li class="register">
-                                <a>Register</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header ">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">Cheddar</span>
+                </div>
             </header>
-            <div class="container">
-                <div id="login-register">
-                    <div id="login" class="section">
-                        <h1>Login</h1>
-                        <form method=POST>
-                            <div class="input-field">
-                                <input id="username" type="text" name="username" class="validate" required>
-                                <label for="username">Username</label>
-                            </div>
-                            <div class="input-field">
-                                <input type="password" name="password" id="password" class="validate" required>
-                                <label for="password">Password</label>
-                            </div>
-                            <button class="btn waves-effect waves-light" type="submit">
-                                Login
-                                <i class="material-icons right">perm_identity</i>
-                            </button>
-                        </form>
-                    </div>
-                    <div id="register" class="section">
-                        <h1>Register</h1>
-                        <form method=POST>
-                            <div class="input-field">
-                                <input id="reg-username" type="text" name="username" class="validate" required>
-                                <label for="reg-username">Username</label>
-                            </div>
-                            <div class="input-field">
-                                <input id="reg-email" type="email" name="email" class="validate" required>
-                                <label for="reg-email">Email</label>
-                            </div>
-                            <div class="input-field">
-                                <input id="reg-password" type="password" name="password" class="validate" pattern=".{10,}" required>
-                                <label for="reg-password" data-error="Your password is weak and you are weak, 10 chars is the minimum! (or maybe they don't match..I dunno)">Password</label>
-                            </div>
-                            <div class="input-field">
-                                <input id="reg-password2" type="password" name="password2" class="validate" required>
-                                <label for="reg-password2">Repeat password</label>
-                            </div>
-                            <button class="btn waves-effect waves-light" type="submit">
-                                Register
-                                <i class="material-icons right">perm_identity</i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div id="alert-modal" class="modal modal-fixed-footer">
-                    <div class="modal-content">
-                        <h2></h2>
-                        <p></p>
-                    </div>
-                    <div class="modal-footer">
-                        <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
-                    </div>
-                </div>
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">Cheddar</span>
+                <nav class="mdl-navigation" id="header" role="navigation">
+                    <a class="mdl-navigation__link logout">Logout</a>
+                </nav>
             </div>
+
+            <main class="mdl-layout__content">
+                <div id="login" class="mdl-card mdl-shadow--16dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text">Login</h2>
+                    </div>
+                    <form method=POST>
+                        <div class="mdl-card__supporting-text">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input id="username" type="text" name="username" class="mdl-textfield__input" required>
+                                <label for="username" class="mdl-textfield__label">Username</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="password" name="password" id="password" class="mdl-textfield__input" required>
+                                <label for="password" class="mdl-textfield__label">Password</label>
+                            </div>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div id="register" class="mdl-card mdl-shadow--16dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text">Register</h2>
+                    </div>
+                    <form method=POST>
+                        <div class="mdl-card__supporting-text">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input id="reg-username" type="text" name="username" class="mdl-textfield__input" required>
+                                <label for="reg-username" class="mdl-textfield__label">Username</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input id="reg-email" type="email" name="email" class="mdl-textfield__input" required>
+                                <label for="reg-email" class="mdl-textfield__label">Email</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input id="reg-password" type="password" name="password" class="mdl-textfield__input" pattern=".{10,}" required>
+                                <label for="reg-password" class="mdl-textfield__label" data-error="Your password is weak and you are weak, 10 chars is the minimum!">Password</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input id="reg-password2" type="password" name="password2" class="mdl-textfield__input" required>
+                                <label for="reg-password2" class="mdl-textfield__label">Repeat password</label>
+                            </div>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     </body>
 </html>

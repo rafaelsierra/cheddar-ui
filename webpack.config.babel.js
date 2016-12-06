@@ -2,9 +2,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack from 'webpack';
 
-// multiple extract instances
-let extractCSS = new ExtractTextPlugin('dist/stylesheets/vendor.[hash].css');
-let extractLESS = new ExtractTextPlugin('dist/stylesheets/cheddar.[hash].css');
+let CSSExtractor = new ExtractTextPlugin('dist/stylesheets/cheddar.[hash].css');
 
 module.exports = {
   entry: './src/js/cheddar.js',
@@ -21,12 +19,12 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: extractLESS.extract(['css', 'less']),
+        loader: CSSExtractor.extract(['css', 'less']),
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        loader: extractCSS.extract(['css']),
+        loader: CSSExtractor.extract(['css']),
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
@@ -37,11 +35,6 @@ module.exports = {
       filename: 'index.html',
       template: 'src/index.html'
     }),
-    new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-    }),
-    extractCSS,
-    extractLESS
+    CSSExtractor,
   ]
 }
