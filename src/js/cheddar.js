@@ -1,11 +1,13 @@
 
 import API from './api-client';
+import dialogPolyfill from 'dialog-polyfill';
 
 /*
  * Webpack stuff
  */
 require('material-design-lite');
 require('material-design-lite/dist/material.amber-blue.min.css');
+
 require('./mdl-helper/layout.js');
 require('../css/cheddar.less');
 /*
@@ -19,7 +21,11 @@ window.addEventListener('load', function(){
    */
   function alert(opts){
     return new Promise(function(resolve, reject){
-      console.log(opts);
+      let dialog = document.querySelector('.mdl-dialog');
+      if(!dialog.showModal){
+        dialogPolyfill.registerDialog(dialog);
+      }
+
       if(!opts){ opts = "";}
       if(typeof opts === "string"){
         opts = {message: opts};
@@ -27,14 +33,27 @@ window.addEventListener('load', function(){
       if(!opts.title){
         opts.title = "Alert";
       }
-      let alertModal = document.getElementById("alert-modal");
-      alertModal.querySelector(".modal-content h2").textContent = opts.title;
-      alertModal.querySelector(".modal-content p").textContent = opts.message;
-      $(alertModal).modal({
-        dismissible: false,
-        complete: function(){resolve();}
-      }).modal('open')
+
+      dialog.querySelector('.mdl-dialog__title').textContent = opts.title;
+      dialog.querySelector('.mdl-dialog__content p').textContent = opts.message;
+
+      let closeButton = dialog.querySelector('.mdl-dialog__actions button');
+      let closeModal = ()=>{
+        dialog.close();
+        closeButton.removeEventListener('click', closeModal);
+      }
+      closeButton.addEventListener('click', closeModal);
+      dialog.showModal();
+
     });
+  }
+
+  /*
+   * Displays a default toast, no customization.
+   */
+  function toast(message){
+    let snackbarContainer = document.querySelector('.mdl-snackbar');
+    snackbarContainer.MaterialSnackbar.showSnackbar({message});
   }
 
   /*
@@ -75,6 +94,29 @@ window.addEventListener('load', function(){
   let Layout = document.querySelector('.mdl-layout').MaterialLayout;
 
   /*
+   * Updates the login and register form to set fields as required if they are in focus
+   */
+  function setFormValidation(form){
+    let elements = form.querySelectorAll('input, button')
+    for(let element of elements){
+      ['focus', 'click'].forEach(e => element.addEventListener(e, function(){
+        for(let field of elements){
+          console.log(field);
+          field.required = true;
+        }
+      }));
+
+      element.addEventListener('blur', function(){
+        for(let field of elements){
+          field.required = false;
+        }
+      });
+    }
+  }
+  setFormValidation(loginForm);
+  setFormValidation(registerForm);
+
+  /*
    * Menu logout click
    */
   logoutLink.addEventListener('click', function(event){
@@ -82,7 +124,8 @@ window.addEventListener('load', function(){
       return api.logout();
     }).then(function(){
       applyBodyClasses();
-      Materialize.toast('Bye!', 1000);
+      Layout.closeDrawer();
+      toast('Bye!');
     });
   });
 
@@ -101,7 +144,7 @@ window.addEventListener('load', function(){
         api.getAccount().then(function(account){
           let name = account.first_name?account.first_name:account.username;
           applyBodyClasses();
-          Materialize.toast(`Welcome, ${name}!`, 1000);
+          toast(`Welcome, ${name}!`);
         });
       }).catch(function(error){
         alert({

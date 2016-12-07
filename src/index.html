@@ -27,11 +27,11 @@
                     <form method=POST>
                         <div class="mdl-card__supporting-text">
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input id="username" type="text" name="username" class="mdl-textfield__input" required>
+                                <input id="username" type="text" name="username" class="mdl-textfield__input">
                                 <label for="username" class="mdl-textfield__label">Username</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input type="password" name="password" id="password" class="mdl-textfield__input" required>
+                                <input type="password" name="password" id="password" class="mdl-textfield__input">
                                 <label for="password" class="mdl-textfield__label">Password</label>
                             </div>
                         </div>
@@ -49,19 +49,20 @@
                     <form method=POST>
                         <div class="mdl-card__supporting-text">
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input id="reg-username" type="text" name="username" class="mdl-textfield__input" required>
+                                <input id="reg-username" type="text" name="username" class="mdl-textfield__input">
                                 <label for="reg-username" class="mdl-textfield__label">Username</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input id="reg-email" type="email" name="email" class="mdl-textfield__input" required>
+                                <input id="reg-email" type="email" name="email" class="mdl-textfield__input">
                                 <label for="reg-email" class="mdl-textfield__label">Email</label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input id="reg-password" type="password" name="password" class="mdl-textfield__input" pattern=".{10,}" required>
-                                <label for="reg-password" class="mdl-textfield__label" data-error="Your password is weak and you are weak, 10 chars is the minimum!">Password</label>
+                                <input id="reg-password" type="password" name="password" class="mdl-textfield__input" pattern=".{10,}">
+                                <label for="reg-password" class="mdl-textfield__label" >Password</label>
+                                <span class="mdl-textfield__error">Your password is weak and you are weak, 10 chars is the minimum!</span>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
-                                <input id="reg-password2" type="password" name="password2" class="mdl-textfield__input" required>
+                                <input id="reg-password2" type="password" name="password2" class="mdl-textfield__input">
                                 <label for="reg-password2" class="mdl-textfield__label">Repeat password</label>
                             </div>
                             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
@@ -71,6 +72,19 @@
                     </form>
                 </div>
             </main>
+        </div>
+
+        <dialog class="mdl-dialog">
+            <h4 class="mdl-dialog__title"></h4>
+            <div class="mdl-dialog__content"><p></p></div>
+            <div class="mdl-dialog__actions">
+                <button type="button" class="mdl-button close">Ok</button>
+            </div>
+        </dialog>
+
+        <div class="mdl-js-snackbar mdl-snackbar">
+          <div class="mdl-snackbar__text"></div>
+          <button class="mdl-snackbar__action" type="button"></button>
         </div>
     </body>
 </html>
