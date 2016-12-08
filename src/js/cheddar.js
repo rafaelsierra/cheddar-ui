@@ -1,6 +1,7 @@
-
-import API from './api-client';
-import dialogPolyfill from 'dialog-polyfill';
+import Toast from './utils/toast.js';
+import Alert from './utils/alert.js';
+import API from './api-client.js';
+import Site from './components/site.js';
 
 /*
  * Webpack stuff
@@ -8,7 +9,7 @@ import dialogPolyfill from 'dialog-polyfill';
 require('material-design-lite');
 require('material-design-lite/dist/material.amber-blue.min.css');
 
-require('./mdl-helper/layout.js');
+require('./mdl-helper/layout.js'); // This is just a patch for Material Layout
 require('../css/cheddar.less');
 /*
  * End webpack
@@ -16,54 +17,14 @@ require('../css/cheddar.less');
 
 window.addEventListener('load', function(){
   /*
-   * Display the alert modal
-   * Returns a promise that resolves when the modal is closed
-   */
-  function alert(opts){
-    return new Promise(function(resolve, reject){
-      let dialog = document.querySelector('.mdl-dialog');
-      if(!dialog.showModal){
-        dialogPolyfill.registerDialog(dialog);
-      }
-
-      if(!opts){ opts = "";}
-      if(typeof opts === "string"){
-        opts = {message: opts};
-      }
-      if(!opts.title){
-        opts.title = "Alert";
-      }
-
-      dialog.querySelector('.mdl-dialog__title').textContent = opts.title;
-      dialog.querySelector('.mdl-dialog__content p').textContent = opts.message;
-
-      let closeButton = dialog.querySelector('.mdl-dialog__actions button');
-      let closeModal = ()=>{
-        dialog.close();
-        closeButton.removeEventListener('click', closeModal);
-      }
-      closeButton.addEventListener('click', closeModal);
-      dialog.showModal();
-
-    });
-  }
-
-  /*
-   * Displays a default toast, no customization.
-   */
-  function toast(message){
-    let snackbarContainer = document.querySelector('.mdl-snackbar');
-    snackbarContainer.MaterialSnackbar.showSnackbar({message});
-  }
-
-  /*
    * Apply body classes based on current app state
    */
-  function applyBodyClasses(){
+  function updateAppState(){
     return new Promise(function(resolve, reject){
       API.then(function(api){
         api.isAuthenticated().then(function(isAuthenticated){
           if(isAuthenticated){
+            Site.updateDrawer();
             document.body.classList.add('authenticated');
             document.body.classList.remove('anonymous');
           }else{
@@ -101,7 +62,6 @@ window.addEventListener('load', function(){
     for(let element of elements){
       ['focus', 'click'].forEach(e => element.addEventListener(e, function(){
         for(let field of elements){
-          console.log(field);
           field.required = true;
         }
       }));
@@ -123,9 +83,9 @@ window.addEventListener('load', function(){
     API.then(function(api){
       return api.logout();
     }).then(function(){
-      applyBodyClasses();
+      updateAppState();
       Layout.closeDrawer();
-      toast('Bye!');
+      Toast('Bye!');
     });
   });
 
@@ -143,11 +103,12 @@ window.addEventListener('load', function(){
         // After logging in, display the welcome toast with user name
         api.getAccount().then(function(account){
           let name = account.first_name?account.first_name:account.username;
-          applyBodyClasses();
-          toast(`Welcome, ${name}!`);
+          updateAppState();
+          Toast(`Welcome, ${name}!`);
+          loginForm.reset();
         });
       }).catch(function(error){
-        alert({
+        Alert({
           title: "Nops!",
           message: "Your username or password are not correct"
         }).then(function(){
@@ -168,7 +129,7 @@ window.addEventListener('load', function(){
     if(password.value != password2.value){
       password.classList.add('invalid')
       password2.classList.add('invalid')
-      alert({
+      Alert({
         title: "Error",
         message: "Passwords are not equal"
       }).then(function(){
@@ -183,10 +144,11 @@ window.addEventListener('load', function(){
         registerForm.querySelector("#reg-email").value,
         password.value,
       ).then(function(){
-        applyBodyClasses();
+        updateAppState();
+        registerForm.reset();
       }).catch(function(response){
         if(response.non_field_errors){
-          alert({
+          Alert({
             title: "Warning",
             message: response.non_field_errors
           });
@@ -199,6 +161,6 @@ window.addEventListener('load', function(){
   /*
    * First things firts
    */
-  applyBodyClasses();
+  updateAppState();
 
 })

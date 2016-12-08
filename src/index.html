@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header ">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">Cheddar</span>
@@ -14,8 +14,11 @@
             </header>
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">Cheddar</span>
-                <nav class="mdl-navigation" id="header" role="navigation">
+                <nav class="mdl-navigation" role="navigation">
                     <a class="mdl-navigation__link logout">Logout</a>
+                </nav>
+                <span class="mdl-layout-title">Your subscriptions</span>
+                <nav class="mdl-navigation sites" role="navigation">
                 </nav>
             </div>
 

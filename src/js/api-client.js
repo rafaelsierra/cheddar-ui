@@ -133,13 +133,37 @@ function isAuthenticated(){
   });
 }
 
+/*
+ * Returns all subscribed sites
+ */
+function getSites(){
+  return new Promise(function(resolve, reject){
+    let siteList = [];
+    let doRequest = (url) => {
+      Request(url).then(function(json){
+        siteList = siteList.concat(json.results);
+        // Recursively fetches all sites
+        if(json.next){
+          doRequest(json.next);
+        }else{
+          resolve(siteList);
+        }
+      }).catch(function(error){
+        reject(error);
+      });
+    }
+    doRequest(apiTree['feeds/sites']);
+  });
+}
+
 export default new Promise(function(resolve, reject){
   let api = {
-    'login': login,
-    'logout': logout,
-    'register': register,
-    'isAuthenticated': isAuthenticated,
-    'getAccount': getAccount,
+    login,
+    logout,
+    register,
+    isAuthenticated,
+    getAccount,
+    getSites,
   }
   if(!apiTree['account']){
     // Means the API wasn't initialized yet
