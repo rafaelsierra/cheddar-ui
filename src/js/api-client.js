@@ -1,7 +1,7 @@
 import storage from './storage';
 
 // Cheddar API root URL
-let apiRootUrl = 'http://localhost:8000/v1/';
+let apiRootUrl = API_ROOT_URL;
 
 // Token being used
 let token = storage.get('token');
@@ -20,16 +20,15 @@ let apiTree = {};
 function Request(url, opts){
   opts = opts || {};
   // Initialize headers
-  opts.headers = opts.headers || new Headers();
+  opts.headers = opts.headers || {};
 
   if(token){
-    opts.headers.set('Authorization', 'Token '+token);
+    opts.headers['Authorization'] = 'Token '+token;
   }
 
-  if(!opts.headers.has('Content-Type')){
-    opts.headers.set('Content-Type', 'application/json');
+  if(!opts.headers['Content-Type']){
+    opts.headers['Content-Type'] = 'application/json';
   }
-
   opts.mode = 'cors';
 
   return new Promise(function(resolve, reject){
@@ -156,6 +155,19 @@ function getSites(){
   });
 }
 
+function subscribe(feed_url){
+  return new Promise(function(resolve, reject){
+    Request(apiTree['feeds/sites'], {
+      method: 'POST',
+      body: JSON.stringify({'feed_url': feed_url})
+    }).then(function(json){
+      resolve(json);
+    }).catch(function(error){
+      reject(error);
+    });
+  });
+}
+
 export default new Promise(function(resolve, reject){
   let api = {
     login,
@@ -164,6 +176,7 @@ export default new Promise(function(resolve, reject){
     isAuthenticated,
     getAccount,
     getSites,
+    subscribe,
   }
   if(!apiTree['account']){
     // Means the API wasn't initialized yet
@@ -172,6 +185,8 @@ export default new Promise(function(resolve, reject){
         apiTree[key] = response[key];
       });
       resolve(api);
+    }).catch(function(response){
+      reject(response);
     });
   }else{
     // API is already initialized

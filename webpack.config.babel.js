@@ -5,7 +5,9 @@ import webpack from 'webpack';
 let CSSExtractor = new ExtractTextPlugin('dist/stylesheets/cheddar.[hash].css');
 
 module.exports = {
-  entry: './src/js/cheddar.js',
+  entry: [
+    './src/js/cheddar.js',
+  ],
   output: {
     filename: 'cheddar.[hash].js',
     path: './dist'
@@ -31,10 +33,17 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      API_ROOT_URL: JSON.stringify(process.env.API_ROOT_URL || 'http://localhost:8000/v1/'),
+    }),
+    new webpack.ProvidePlugin({
+      'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    }),
+    CSSExtractor,
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'src/index.html'
     }),
-    CSSExtractor,
   ]
 }

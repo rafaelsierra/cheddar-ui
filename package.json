@@ -12,9 +12,12 @@
     "babel-preset-latest": "^6.16.0",
     "css-loader": "^0.26.1",
     "dialog-polyfill": "^0.4.5",
+    "es6-promise": "^4.0.5",
+    "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.24.1",
+    "imports-loader": "^0.7.0",
     "jquery": "^2.2.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -23,7 +26,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
-    "webpack-stream": "^3.2.0"
+    "webpack-stream": "^3.2.0",
+    "whatwg-fetch": "^2.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -3,34 +3,39 @@ import dialogPolyfill from 'dialog-polyfill';
  * Display the alert modal
  * Returns a promise that resolves when the modal is closed
  */
-export default function(opts){
-  return new Promise(function(resolve, reject){
-    let dialog = document.querySelector('.mdl-dialog');
-    if(!dialog.showModal){
-      dialogPolyfill.registerDialog(dialog);
-    }
+export default (function(){
+  "use strict";
+  
+  let dialog = document.querySelector('#alert.mdl-dialog');
+  if(!dialog.showModal){
+    dialogPolyfill.registerDialog(dialog);
+  }
 
-    if(!opts){ opts = "";}
-    if(typeof opts === "string"){
-      opts = {message: opts};
-    }
-    if(!opts.title){
-      opts.title = "Alert";
-    }
+  return function(opts){
+    return new Promise(function(resolve, reject){
 
-    dialog.querySelector('.mdl-dialog__title').textContent = opts.title;
-    dialog.querySelector('.mdl-dialog__content p').textContent = opts.message;
+      if(!opts){ opts = "";}
+      if(typeof opts === "string"){
+        opts = {message: opts};
+      }
+      if(!opts.title){
+        opts.title = "Alert";
+      }
 
-    let closeButton = dialog.querySelector('.mdl-dialog__actions button');
-    let closeModal = ()=>{
-      dialog.close();
-      closeButton.removeEventListener('click', closeModal);
-      resolve();
-    }
-    closeButton.addEventListener('click', closeModal);
-    dialog.showModal();
+      dialog.querySelector('.mdl-dialog__title').textContent = opts.title;
+      dialog.querySelector('.mdl-dialog__content p').textContent = opts.message;
 
-  });
-}
+      let closeButton = dialog.querySelector('.mdl-dialog__actions button');
+      let closeModal = ()=>{
+        dialog.close();
+        closeButton.removeEventListener('click', closeModal);
+        resolve();
+      }
+      closeButton.addEventListener('click', closeModal);
+      dialog.showModal();
+
+    });
+  }
+})();
 
 

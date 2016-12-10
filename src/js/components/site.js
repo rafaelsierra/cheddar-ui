@@ -15,7 +15,7 @@ export default (function(){
             let span = document.createElement('span');
             span.classList.add('mdl-badge');
             
-            a.textContent = site.title;
+            a.textContent = site.title || site.url || site.feed_url;
             a.dataset['json'] = JSON.stringify(a);
             a.classList.add("mdl-navigation__link");
             a.appendChild(span);

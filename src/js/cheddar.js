@@ -1,19 +1,31 @@
-import Toast from './utils/toast.js';
-import Alert from './utils/alert.js';
-import API from './api-client.js';
-import Site from './components/site.js';
-
 /*
  * Webpack stuff
  */
+
+// Material Design
 require('material-design-lite');
 require('material-design-lite/dist/material.amber-blue.min.css');
 
+// Polyfill
+require('babel-polyfill');
+require('dialog-polyfill/dialog-polyfill.css');
+
+// Local stuff
 require('./mdl-helper/layout.js'); // This is just a patch for Material Layout
 require('../css/cheddar.less');
 /*
  * End webpack
  */
+
+
+
+import Toast from './utils/toast.js';
+import Alert from './utils/alert.js';
+
+import API from './api-client.js';
+
+import Site from './components/site.js';
+import Subscribe from './components/subscribe.js';
 
 window.addEventListener('load', function(){
   /*
@@ -154,6 +166,8 @@ window.addEventListener('load', function(){
           });
         }
       })
+    }).catch(function(error){
+      console.error('Failed to initialize API:', error);
     });
 
   });
@@ -162,5 +176,7 @@ window.addEventListener('load', function(){
    * First things firts
    */
   updateAppState();
+  Subscribe.init({triggerSelector: "a.open-subscription"});
+  document.addEventListener(Subscribe.events.subscribed, updateAppState)
 
 })
