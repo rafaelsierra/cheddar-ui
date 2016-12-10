@@ -1,43 +1,66 @@
 body{
-    a {
-        cursor: pointer;
+  a {
+    cursor: pointer;
+  }
+
+  .mdl-card {
+    width: 310px;
+    margin: 15px auto;
+  }
+
+  .post-card {
+    margin: 10px auto;
+    width: 99%;
+
+    a{
+      text-decoration: none;
     }
 
-    .mdl-card {
-      width: 310px;
-      margin: 15px auto;
-    }
-
-    &.authenticated{
-        .mdl-layout__drawer nav {
-            .login, .register{
-                display: none;
-            }
-        }
-        #register.mdl-card, #login.mdl-card {
-            display: none;
-        }
-    }
-
-    &.anonymous{
-        .mdl-layout__drawer nav .logout{
-            display: none;
-        }
-
-        #reg-password.invalid {
-            margin-bottom: 38px;
-        }
-        .mdl-navigation.sites {
-          display: none;
-        }
-        .hide-anonymous{
-          display: none;
-        }
-    }
-
-    @media screen and (min-width: 1025px){
-      header .mdl-layout-title{
-        display: none;
+    .mdl-card__title {
+      padding: 10px;
+      background: #f5f5f5;
+      h2 {
+        font-size: 17px;
+        line-height: 19px;
+        margin: 0;
       }
     }
+
+    .mdl-card__supporting-text {
+      padding: 0 10px;
+    }
+  }
+
+  &.authenticated{
+    .mdl-layout__drawer nav {
+      .login, .register{
+          display: none;
+      }
+    }
+    #register.mdl-card, #login.mdl-card {
+      display: none;
+    }
+  }
+
+  &.anonymous{
+    .mdl-layout__drawer nav .logout{
+      display: none;
+    }
+
+    #reg-password.invalid {
+      margin-bottom: 38px;
+    }
+    .mdl-navigation.sites {
+      display: none;
+    }
+    .hide-anonymous{
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 1025px){
+    header .mdl-layout-title{
+      display: none;
+    }
+  }
 }

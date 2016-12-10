@@ -28,6 +28,7 @@ module.exports = {
         test: /\.css$/,
         loader: CSSExtractor.extract(['css']),
       },
+      { test: /\.hbs$/, loader: "handlebars-loader" },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
     ],
@@ -38,7 +39,7 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
     }),
     CSSExtractor,
     new HtmlWebpackPlugin({

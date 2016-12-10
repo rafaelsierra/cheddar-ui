@@ -25,6 +25,7 @@ import Alert from './utils/alert.js';
 import API from './api-client.js';
 
 import Site from './components/site.js';
+import Post from './components/post.js';
 import Subscribe from './components/subscribe.js';
 
 window.addEventListener('load', function(){
@@ -37,6 +38,7 @@ window.addEventListener('load', function(){
         api.isAuthenticated().then(function(isAuthenticated){
           if(isAuthenticated){
             Site.updateDrawer();
+            Post.load();
             document.body.classList.add('authenticated');
             document.body.classList.remove('anonymous');
           }else{
