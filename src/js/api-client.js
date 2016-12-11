@@ -218,13 +218,30 @@ export default (function(){
     }
     if(!apiTree['account']){
       // Means the API wasn't initialized yet
-      Request(apiRootUrl).then(function(response){
-        Object.keys(response).forEach(function(key){
-          apiTree[key] = response[key];
+      let initApi = ()=>{
+        return new Promise(function(resolve, reject){
+          Request(apiRootUrl).then(function(response){
+            Object.keys(response).forEach(function(key){
+              apiTree[key] = response[key];
+            });
+            resolve(api);
+          }).catch(function(response){
+            reject(response);
+          });
         });
+      }
+
+      initApi().then((api) => {
         resolve(api);
-      }).catch(function(response){
-        reject(response);
+      }).catch((response) => {
+        if(token && response.status == 401){
+          // The token in use was rejected
+          // Try again using no token
+          token = null;
+          initApi().then(resolve).catch(reject);
+        }else{
+          reject(response); 
+        }
       });
     }else{
       // API is already initialized

@@ -6,11 +6,10 @@ import moment from 'moment';
 import Handlebars from 'handlebars/dist/handlebars.js';
 
 export default (function(){
-  function MomentHelper(date_string, output_format){
+  function MomentHelper(date_string, output_format, force_format=false){
     let date = moment(date_string);
     let date_formatted = '';
-
-    if(date.isBefore(moment().subtract(3, 'days'))){
+    if(date.isBefore(moment().subtract(3, 'days')) || force_format === true){
       date_formatted = date.format(output_format);
     }else{
       date_formatted = moment(date_string).fromNow();

@@ -10,18 +10,74 @@ export default (function(){
   class Post {
     constructor(json){
       this.json = json;
+      this.json.content = this.json.content || "";
       this.parser = new DOMParser();
+
+      this.contentAsDOM = this.parser.parseFromString(this.json.content, "text/html").body;
       this.templates = {
-        'default': Handlebars.compile(document.querySelector('#post-card-hbs').textContent),
+        'default': Handlebars.compile(document.querySelector('#post-card-default-hbs').textContent),
+        'small-with-image': Handlebars.compile(document.querySelector('#post-card-small-with-image-hbs').textContent),
+        'no-content': Handlebars.compile(document.querySelector('#post-card-no-content-hbs').textContent),
       }
     }
 
+
+    get bgImage(){
+      if(!this.contentAsDOM){
+        return null;
+      }
+      let imgs = this.contentAsDOM.querySelectorAll('img');
+      switch(imgs.length){
+        case 0:
+          return null;
+        case 1:
+          return imgs[0];
+        default:
+          return (()=>{
+            // Returns the biggest image
+            let biggestArea = 0;
+            let biggestImg = null;
+            for(let img of imgs){
+              if(img.width > 0 && img.height > 0){
+                let area = img.width * img.height;
+                if(area > biggestArea){
+                  biggestImg = img;
+                }
+              }
+            }
+            return biggestImg || imgs[0];
+          })();
+      }
+    }
+
+    isSmall() {
+      if(!this.contentAsDOM){ return 0; }
+      return this.contentAsDOM.textContent.length < 280; // About 2 tweets long is small
+    }
+
     get getTemplate(){
+      let bgImage = this.bgImage;
+      if(bgImage){
+        this.json.backgroundImage = bgImage.src;
+      }
+
+      if(this.isSmall()){
+        if(bgImage){
+          return this.templates['small-with-image'];
+        }else{
+          return this.templates['no-content'];
+        }
+      }
       return this.templates['default'];
     }
 
     render(){
-      return this.parser.parseFromString(this.getTemplate({post: this.json}), "text/html").body.firstElementChild;
+      let dom = this.parser.parseFromString(this.getTemplate({post: this.json}), "text/html").body.firstElementChild;
+      // Makes every link open in another tab
+      for(let a of dom.querySelectorAll("a")){
+        a.target = "_blank";
+      }
+      return dom;
     }
   }
 

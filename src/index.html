@@ -109,10 +109,10 @@
           <button class="mdl-snackbar__action" type="button"></button>
         </div>
 
-        <script type="text/hbs" id="post-card-hbs">
+        <script type="text/hbs" id="post-card-default-hbs">
             <div class="mdl-card mdl-shadow--2dp post-card">
                 <div class="mdl-card__supporting-text post-info">
-                    {{moment post.date "LL"}} {{#if post.author}}by {{post.author}}{{/if}}
+                    {{moment post.date "LL" }} {{#if post.author}}by {{post.author}}{{/if}}
                 </div>
                 <div class="mdl-card__title">
                     <h2><a href="{{post.url}}" target="_blank">{{{post.title}}}</a></h2>
@@ -123,6 +123,41 @@
                     {{{post.content}}}
                 </div>
             </div>
+        </script>
+
+        <script type="text/hbs" id="post-card-small-with-image-hbs">
+            <a href="{{post.url}}" target="_blank">
+                <div class="mdl-card mdl-shadow--2dp post-card small-with-image" style="background-image: url({{post.backgroundImage}});">
+                    <div class="mdl-card__title">
+                        <div class="date-box">
+                            <span class="day">{{moment post.date "DD" true}}</span>
+                            <span class="month">{{moment post.date "MMM" true}}</span>
+                        </div>
+
+                        <h2>{{{post.title}}}</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text post-meta">
+                    </div>
+                </div>
+            </a>
+        </script>
+
+        <script type="text/hbs" id="post-card-no-content-hbs">
+                <div class="mdl-card mdl-shadow--2dp post-card no-content">
+                    <div class="mdl-card__title">
+                        <div class="date-box">
+                            <span class="day">{{moment post.date "DD" true}}</span>
+                            <span class="month">{{moment post.date "MMM" true}}</span>
+                        </div>
+                        <h2><a href="{{post.url}}" target="_blank">{{{post.title}}}</a></h2>
+                    </div>
+                    <div class="mdl-card__supporting-text post-info">
+                        {{#if post.author}}by {{post.author}}{{/if}}
+                    </div>
+                    <div class="mdl-card__supporting-text post-meta">
+                    </div>
+                </div>
+            </a>
         </script>
     </body>
 </html>
