@@ -186,6 +186,16 @@ export default (function(){
       if(filter.all){
         url = apiTree['feeds/posts'];
       }
+
+      if(!filter.order){
+        filter.order = 'desc';
+      }else if(filter.order != 'asc' && filter.order != 'desc'){
+        filter.order = 'desc';
+      }
+
+      url = new URL(url);
+      url.searchParams.append('order', filter.order);
+
       Request(url, opts).then(function(json){
         resolve(json);
       }).catch(function(response){

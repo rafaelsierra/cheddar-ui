@@ -12,6 +12,7 @@ require('dialog-polyfill/dialog-polyfill.css');
 
 // Local stuff
 require('./mdl-helper/layout.js'); // This is just a patch for Material Layout
+require('./hbs-helper/moment.js');
 require('../css/cheddar.less');
 /*
  * End webpack

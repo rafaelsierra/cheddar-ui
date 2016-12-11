@@ -10,6 +10,7 @@ body{
 
   .post-card {
     margin: 10px auto;
+    padding-bottom: 20px;
     width: 99%;
 
     a{
@@ -18,7 +19,6 @@ body{
 
     .mdl-card__title {
       padding: 10px;
-      background: #f5f5f5;
       h2 {
         font-size: 17px;
         line-height: 19px;
@@ -32,10 +32,24 @@ body{
   }
 
   &.authenticated{
-    .mdl-layout__drawer nav {
-      .login, .register{
-          display: none;
+    .mdl-layout__drawer {
+      nav{
+        .login, .register{
+            display: none;
+        }
       }
+      .subtitle {
+        line-height: 20px;
+        margin-top: 20px;
+
+        &:after{
+          right: 0;
+          border-radius: 10px;
+          padding: 0 5px;
+          width: auto;
+        }
+      }
+
     }
     #register.mdl-card, #login.mdl-card {
       display: none;
