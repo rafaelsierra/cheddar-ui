@@ -19,6 +19,22 @@ export default (function(){
         'small-with-image': Handlebars.compile(document.querySelector('#post-card-small-with-image-hbs').textContent),
         'no-content': Handlebars.compile(document.querySelector('#post-card-no-content-hbs').textContent),
       }
+      this.postRenderCallbacks = {
+        'small-with-image': [this.updateCardHeight],
+      }
+    }
+
+    updateCardHeight(dom){
+      let img = this.bgImage;
+      if(img && img.height){
+        if(img.height < 1000){
+          dom.style.minHeight = `${img.height}px`;
+        }else{
+          dom.style.minHeight = '1000px';
+        }
+        dom.style.backgroundPosition = 'bottom';
+      }
+      return dom;
     }
 
 
@@ -56,19 +72,23 @@ export default (function(){
     }
 
     get getTemplate(){
-      let bgImage = this.bgImage;
+      return this.templates[this.getTemplateName()];
+    }
+
+    getTemplateName(){
+       let bgImage = this.bgImage;
       if(bgImage){
         this.json.backgroundImage = bgImage.src;
       }
 
       if(this.isSmall()){
         if(bgImage){
-          return this.templates['small-with-image'];
+          return 'small-with-image';
         }else{
-          return this.templates['no-content'];
+          return 'no-content';
         }
       }
-      return this.templates['default'];
+      return 'default';
     }
 
     render(){
@@ -76,6 +96,14 @@ export default (function(){
       // Makes every link open in another tab
       for(let a of dom.querySelectorAll("a")){
         a.target = "_blank";
+      }
+
+      // Post processing
+      let callbacks = this.postRenderCallbacks[this.getTemplateName()];
+      if(callbacks){
+        for(let callback of callbacks){
+          dom = callback.call(this, dom);
+        }
       }
       return dom;
     }

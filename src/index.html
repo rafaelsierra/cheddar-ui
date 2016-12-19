@@ -126,8 +126,8 @@
         </script>
 
         <script type="text/hbs" id="post-card-small-with-image-hbs">
-            <a href="{{post.url}}" target="_blank">
-                <div class="mdl-card mdl-shadow--2dp post-card small-with-image" style="background-image: url({{post.backgroundImage}});">
+            <div class="mdl-card mdl-shadow--2dp post-card small-with-image" style="background-image: url({{post.backgroundImage}});">
+                <a href="{{post.url}}" target="_blank">
                     <div class="mdl-card__title">
                         <div class="date-box">
                             <span class="day">{{moment post.date "DD" true}}</span>
@@ -138,8 +138,8 @@
                     </div>
                     <div class="mdl-card__supporting-text post-meta">
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </script>
 
         <script type="text/hbs" id="post-card-no-content-hbs">
