@@ -128,6 +128,8 @@ export default (function(){
             // Creates a card for each post and adds it to the page
             postsContainer.appendChild((new Post(post_json)).render());
           }
+        }).catch((response)=>{
+          // TODO: Failed to load posts
         });
       });
     });

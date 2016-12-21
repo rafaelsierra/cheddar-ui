@@ -1,4 +1,5 @@
 import storage from './storage';
+import URLSearchParams from 'url-search-params';
 
 export default (function(){
   // Cheddar API root URL
@@ -194,9 +195,11 @@ export default (function(){
       }
 
       url = new URL(url);
-      url.searchParams.append('order', filter.order);
+      let searchParams = new URLSearchParams();
+      searchParams.append('order', filter.order);
+      url.search = searchParams.toString();
 
-      Request(url, opts).then(function(json){
+      Request(url.toString(), opts).then(function(json){
         resolve(json);
       }).catch(function(response){
         reject(response);
@@ -240,7 +243,7 @@ export default (function(){
           token = null;
           initApi().then(resolve).catch(reject);
         }else{
-          reject(response); 
+          reject(response);
         }
       });
     }else{
